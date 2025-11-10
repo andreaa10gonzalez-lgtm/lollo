@@ -138,6 +138,22 @@
         const href = waLink(src);
         if(el.tagName === 'A'){
           el.setAttribute('href', href);
-          el.setAttribute('target', '_blank'
+          el.setAttribute('target', '_blank');
+          el.addEventListener('click', (e)=>{ /* default open in new tab */ });
+        }else{
+          el.addEventListener('click', (e)=>{ e.preventDefault(); openWA(href); });
+        }
+      });
+    }
+    document.addEventListener('DOMContentLoaded', applyLinks);
+
+    // Contador de urgencia (escasez)
+    (function(){
+      const el = document.getElementById('contador');
+      if(!el) return;
+      let num = parseInt(el.textContent,10) || 10;
+      setInterval(()=>{ if(num>3){ num--; el.textContent = num; } }, 8000);
+    })();
+  </script>
 </body>
 </html>
