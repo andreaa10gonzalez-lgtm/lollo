@@ -99,8 +99,8 @@
         </ul>
         <div><span class="pill">🎁 Bono de bienvenida con tu carga <small>(consultá condiciones)</small></span></div>
         <div class="cta-row">
-          <a id="cta-hero" class="cta" href="#" rel="noopener" aria-label="Hablar por WhatsApp">💬 Quiero mi beneficio<span class="tag" aria-hidden="true">Bono de bienvenida</span></a>
-          <button id="cta-alt" class="btn-ghost" type="button">Hablar con asesor</button>
+          <a id="cta-hero" class="cta" href="#" data-wa-source="hero" rel="noopener" aria-label="Hablar por WhatsApp">💬 Quiero mi beneficio<span class="tag" aria-hidden="true">Bono de bienvenida</span></a>
+          <a id="cta-alt" class="btn-ghost" href="#" rel="noopener" data-wa-source="alt">Hablar con asesor</a>
         </div>
         <p id="bonus-counter" style="font-size:14px; color:#cfcfcf; font-weight:700; margin-top:6px;">🎯 Solo <span id="contador">10</span> cupos disponibles hoy. Enviá el mensaje y asegurá tu beneficio ⏰</p>
         <div class="trust">
@@ -123,16 +123,21 @@
       'Hola 👋 Quiero empezar hoy con los beneficios de carga 💰'
     ];
     const UTM = 'utm_source=landing&utm_medium=cta&utm_campaign=whatsapp_asesor';
+
     function waLink(source){
       const txt = encodeURIComponent(MESSAGES[Math.floor(Math.random()*MESSAGES.length)] + `\n\nRef: ${source}`);
       return `https://wa.me/${PHONE}?text=${txt}&${UTM}&utm_content=${encodeURIComponent(source)}`;
     }
-    (function(){
-      const el = document.getElementById('contador');
-      if(!el) return;
-      let num = parseInt(el.textContent,10) || 10;
-      setInterval(()=>{ if(num>3){ num--; el.textContent = num; } }, 8000);
-    })();
-  </script>
+    function openWA(href){
+      const w = window.open(href, '_blank');
+      if(!w){ window.location.href = href; }
+    }
+    function applyLinks(){
+      document.querySelectorAll('[data-wa-source]').forEach(el=>{
+        const src = el.getAttribute('data-wa-source') || 'cta';
+        const href = waLink(src);
+        if(el.tagName === 'A'){
+          el.setAttribute('href', href);
+          el.setAttribute('target', '_blank'
 </body>
 </html>
